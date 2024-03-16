@@ -14,7 +14,6 @@ import logging
 import os
 
 
-
 def create_folder_save_Episode(folder_path):
     try:
         os.mkdir(folder_path)
@@ -25,10 +24,9 @@ def create_folder_save_Episode(folder_path):
     except Exception as e:
         print(f"An error occurred: {str(e)}")
         quit()
-
+#save the anime episode
     with open(f'{folder_path}/{filename}-{split_name[2]}.mp4', "wb") as f:
         f.write(response.content)
-
 
 
 LOGGER.setLevel(logging.ERROR)
@@ -37,11 +35,11 @@ LOGGER.setLevel(logging.ERROR)
 HEADER = {
     "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/122.0.0.0 "
                   "Safari/537.36"}
-
+#driver options
 options = Options()
 options.add_argument('headless')
 driver = webdriver.Chrome(service=Service(ChromeDriverManager().install()),options=options)
-
+#get user data about the anime
 anime_name = input('name: ').replace(' ','-')
 session = input('which seasion: ')
 Sepisodes = int(input('start: '))
@@ -52,12 +50,13 @@ for i in range(Sepisodes, Eepisodes+1):
     Link_name = f'{anime_name}/staffel-{session}/episode-{i}'
     split_name = Link_name.split('/')
     filename = split_name[0]
+#incase anime not found or didnt type the correct name
     try :
         response = requests.get(f'https://aniworld.to/anime/stream/{Link_name}',headers=HEADER)
     except:
         print('ERROR anime not found')
         quit()
-    
+#scrape the anime link
     content = response.text
     soup = BeautifulSoup(content, 'html.parser')
     links = soup.find_all('a', class_='watchEpisode', attrs={'class': 'icon Vidoza'})
@@ -71,13 +70,9 @@ for i in range(Sepisodes, Eepisodes+1):
 
     response = requests.get(video_source_url)
     print(f'{Link_name} is getting downloaded')
-
-
-
     create_folder_save_Episode(f'D:/animes/{anime_name}')
 
-
-
 # Close the WebDriver session after processing all episodes
+    
 driver.quit()
 
