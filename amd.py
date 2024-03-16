@@ -33,7 +33,6 @@ def create_folder_save_Episode(folder_path):
 
 LOGGER.setLevel(logging.ERROR)
 
-full_ep = ''
 
 HEADER = {
     "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/122.0.0.0 "
@@ -78,7 +77,6 @@ for i in range(Sepisodes, Eepisodes+1):
     create_folder_save_Episode(f'D:/animes/{anime_name}')
 
 
-    full_ep += readylink + '\n'
 
 # Close the WebDriver session after processing all episodes
 driver.quit()
